@@ -60,10 +60,10 @@
 
 			$scope.adicionarUsuario = function(usuario){
 
-				usuario.data = new Date();
-				usuario.idTeste = null;
+				usuario.dataAtual = new Date();
+			//	usuario.idTeste = null;
 				
-				$http({
+		/*		$http({
 					method: 'POST',
 					url: 'http://localhost:8089/WebFuelServices/api/testarDBInput',
 					dataType: 'json',
@@ -86,8 +86,8 @@
 			});
 
 
-		};
-/*
+		};*/
+
 		$http.post("http://localhost:8089/WebFuelServices/api/testarDBInput", usuario).success(function (data){
 
 				delete $scope.usuario; //limpa os campos do usuario
@@ -103,7 +103,7 @@
 
 
 		};
-*/
+
 		carregarUsuarios();
 
 	});
