@@ -1,0 +1,11 @@
+https://www.youtube.com/watch?v=VcF7SySRkHs
+outras diretivas:
+
+ngDisabled: Desabilitando um elemento dinamicamente
+
+ngOptions: Renderiza opções de um select
+
+ngClass e ngStyle: Aplicando classes CSS e estilos dinamicamente;
+
+ngShow, ngHide, ngIf: Exibe um elemento condicionalmente;
+include:

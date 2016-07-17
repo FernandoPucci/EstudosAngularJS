@@ -1,0 +1,24 @@
+Controller > Scope > view
+
+Scope eh a ponte entre View e controller
+
+--Diretivas:
+São extensões da linguagem HTML que permitem
+a implementação de novs comportamentos, de forma declarativa
+
+ngApp = Define as fronteiras da aplicação
+
+ngController = vincula um elemento da View ao Controller
+
+ngBind = substitui o elemento por uma expressão
+
+ngRepeat = Iterando sobre os itens de uma coleção ou de um objeto
+
+ngModel = inverso do ngBind - pega algo da View e define como propriedade do $scope
+(aplicado nos input, select e textarea)
+
+ngClick = Atribui um comportamento ao evento
+(ngDoubeClick, ngBlur, ngFocus, ngCopy, ngPaste, ec)
+
+
+two-way databinding - ciclo de notificações embarcdo no angular

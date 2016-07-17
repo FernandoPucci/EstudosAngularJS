@@ -1,0 +1,18 @@
+https://www.youtube.com/watch?v=HDjpIT2TLP0
+
+ngRequired: Define um determinado campo como obrigatório 
+
+$valid e $invalid: consultando a validade de um campo ou formulário
+
+$pristine e $dirty = propriedades do <form> que verificam se um formulario ou campo já foi utilizado alguma vez
+
+$setPristine(); - retorna ao formato de 'intocado'
+
+
+ngMinlength e ngMaxlength: definem o tamanho mínimo e o tamanho máximo permitidos
+
+$error= contém as validações e seus respectivos estados
+
+ngPattern: degine uma Regex para validar um campo
+
+ngMessages: semelhante a um switch

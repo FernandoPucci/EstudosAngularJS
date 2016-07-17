@@ -1,0 +1,49 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<title>Teste Rest</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+	
+	<style type="text/css">
+		.jumbotron{
+
+			width: 800px;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 20px;
+
+		}
+
+		.table{
+			margin-top: 20px;
+			text-align: left;
+		}
+		.form-control{
+
+			margin-bottom: 5px; 
+		}
+		.selecionado{
+			background-color: yellow;
+		}
+		.negrito{
+			font-weight: bolder;
+		}
+	</style>
+
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular/angular-resource.js"></script>
+	<script src="lib/angular/angular-locale_pt-br.js"></script>
+	<script src="lib/angular/angular-messages.js"></script>
+	<script src="js/controller.js"></script>
+	<script src="js/services.js"></script>
+
+</head>
+<body>
+<div>
+    <p>
+        Result from RESTful service is: {{ idEstado }}
+    </p>
+</div>
+</body>
+</html>

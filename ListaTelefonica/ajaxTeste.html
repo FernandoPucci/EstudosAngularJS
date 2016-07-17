@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8"> 
+
+<head>
+	<title>Teste AJAX</title>
+	<script >
+		var get = function(url, callback){
+
+			var xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function(){
+
+		if(xhr.readyState === 4){ //comunicacao com sucesso
+			
+		
+			callback(xhr.responseText, xhr.status);
+
+		}else{
+	
+			console.log(xhr.readyState);
+
+		}
+	};
+	xhr.open('GET', url);
+	xhr.send(null);
+};
+	
+	var chamar = function(){
+
+		console.log('chamou');
+		
+		get("http://localhost:8089/WebFuelServices/api/utils/listAllEstados", function(data){ 
+			console.log(data);
+
+			document.getElementById("ajaxDiv").innerHTML = data;
+			
+		});};
+
+	</script>
+</head>
+<body>
+	<h3>Teste AJAX</h3>
+	<div id="ajaxDiv">teste</div>
+	<input type="button" value="teste" onclick="chamar();"/>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<html ng-app="mvcApp">
+
+		<head>
+			<meta charset="utf-8">
+			
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<script src="./js/angular.min.js"></script>
+			
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+			<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.js"></script>
+
+
+			<script src="https://use.fontawesome.com/54e876b605.js"></script>
+
+
+<title>Estados e Capitais - MVC Angular JS</title>
+		</head>
+
+		<bod ng-controller="ep03Controller">
+
+		<div class="container theme-showcase">
+			<h1>Estados e Capitais</h1>
+			<ul class="list-group">
+			 	
+			 		<li class="list-group-item" ng-repeat="state in states">
+			 		
+			 		{{state.name}} - {{state.capital}}
+
+			 		</li>
+
+			</ul>
+
+			<i class="fa fa-pencil" aria-hidden="true">
+				<form ng-submit="addState()">
+					<input type="text" ng-model="estado" placeholder="Digite um Estado."/>
+					<input type="text" ng-model="capital" placeholder="Digite a Capital."/>
+					<input type="submit" value="Adicionar"/>
+
+			</form>
+			</i>
+
+			<!-- aqui vai o controller, poderia estar em um arquivo a parte-->
+				<!--<script type="text/javascript">-->
+				<script>
+						var mvcApp = angular.module('mvcApp', []);
+
+						mvcApp.controller('ep03Controller', function ep03Controller($scope){
+
+							$scope.states = [
+								{name:'Minas Gerais', capital:'Belo Horizonte'},
+								{name:'São Paulo', capital:'São Paulo'},
+								{name:'Rio de Janeiro', capital:'Rio de Janeiro'},
+								{name:'Rio Grande do Sul', capital:'Porto alegre'}
+							];
+
+
+							$scope.addState = function() {
+								$scope.states.push({name: $scope.estado, capital: $scope.capital});
+								$scope.estado = '';
+								$scope.capital = '';
+							}
+						});
+				</script>
+			</div>
+		</body>
+
+</html>
