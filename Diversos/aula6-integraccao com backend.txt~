@@ -3,7 +3,7 @@ https://www.youtube.com/watch?v=VU38CEVwPck
 
 
 Função get:
-
+<script>
 var get = function(url, callback){
 
 			var xhr = new XMLHttpRequest();
@@ -24,6 +24,20 @@ var get = function(url, callback){
 	xhr.open('GET', url);
 	xhr.send(null);
 };
+</sctript>
+
+
+--ANOTAÇÕES AULA #6
+
+-- $http 
+o serviço $htto do Angular permite a realização de requisições utilizando o 
+XMLHttpRequest ou via JSONP: 
+
+-get(url, config)
+-post(url, data, config)
+-put(url, data, config)
+-delete(url, config)
+-jsonp(url, config)
 
 
 

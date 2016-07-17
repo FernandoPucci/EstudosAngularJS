@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> 
+<html ng-app="WebFuel2">
+<head>
+	<title>..::Teste de Banco de Dados = Aplicação WebFuel</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+	
+	<style type="text/css">
+		.jumbotron{
+
+			width: 950px;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 20px;
+
+		}
+
+		.table{
+			margin-top: 20px;
+			text-align: left;
+		}
+		.form-control{
+
+			margin-bottom: 5px; 
+		}
+		.selecionado{
+			background-color: yellow;
+		}
+		.negrito{
+			font-weight: bolder;
+		}
+	</style>
+
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular/angular-locale_pt-br.js"></script>
+	<script src="lib/angular/angular-messages.js"></script>
+
+	<script>
+		angular.module("WebFuel2", ["ngMessages"]);
+		angular.module("WebFuel2").controller("WebFuel2Controller", function($scope, $http){
+
+			$scope.app = "Teste WebFuel2";
+
+			$scope.usuarios = [];
+
+
+			var carregarUsuarios = function(){
+
+				$http.get("http://localhost:8089/WebFuelServices/api/testarDBList").success(function(data, status){
+
+					//crio o array estados, baseado nos dados dos estados retornados do BackEnd
+					$scope.usuarios = data;
+
+
+				});
+
+
+			};
+
+			$scope.adicionarUsuario = function(usuario){
+
+				usuario.data = new Date();
+				usuario.idTeste = null;
+				
+				$http({
+					method: 'POST',
+					url: 'http://localhost:8089/WebFuelServices/api/testarDBInput',
+					dataType: 'json',
+					headers: { 
+						'Content-Type': 'application/vnd.sun.wadl+xml',
+						"Foo-Header": "foo"
+					},
+					data: {usuario}
+				}).success(function (data){
+
+				delete $scope.usuario; //limpa os campos do usuario
+				$scope.usuarioForm.$setPristine();
+
+				carregarUsuarios();	
+
+			}).error( function(data, status){
+
+				alert("Ocorreu um erro o adicionar Usuario. " + status + ", " + data);
+
+			});
+
+
+		};
+/*
+		$http.post("http://localhost:8089/WebFuelServices/api/testarDBInput", usuario).success(function (data){
+
+				delete $scope.usuario; //limpa os campos do usuario
+				$scope.usuarioForm.$setPristine();
+
+				carregarUsuarios();	
+
+			}).error( function(data, status){
+
+				alert("Ocorreu um erro o adicionar Usuario. " + status + ", " + data);
+
+			});
+
+
+		};
+*/
+		carregarUsuarios();
+
+	});
+</script>
+
+
+</head>
+
+<body ng-controller="WebFuel2Controller">
+	<div class="jumbotron">
+		<h3>{{app}}</h3>
+		{{usuarios}}
+		<table ng-show="usuarios.length > 0" class="table">
+			<tr>
+				<!--<th></th>-->
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Sobrenome</th>
+				<th>Data</th>
+			</tr>
+			<tr ng-repeat="usuario in usuarios">
+				<td>{{usuario.idTeste}}</td>
+				<td>{{usuario.nome | uppercase}}</td>
+				<td>{{usuario.sobrenome}}</td>
+				<td>{{usuario.dataRegistro | date:'EEE dd/MM/yyyy HH:mm:ss'}}</td>
+			</tr>
+		</table>
+		<hr/>
+		<hr/>
+		<form name="usuarioForm">
+			<input class="form-control" type="text" 
+			ng-model="usuario.nome" 
+			name="nome" 
+			placeholder="Nome" 
+			ng-required="true" 
+			ng-minlength="3"/>
+
+			<input class="form-control" type="text" 
+			ng-model="usuario.sobrenome" 
+			name="sobrenome" 
+			placeholder="Sobrenome" 
+			ng-required="true"/>
+
+		</form>
+
+
+		<!--ALERTAS-->
+		<div ng-messages="usuarioForm.nome.$error" > 
+			<!-- preenchimento-->
+			<div ng-message="required" class="alert alert-danger">
+				Por favor, preencha o Nome.
+			</div>
+			<!-- minlength-->
+			<div ng-message="minlength" class="alert alert-danger">
+				O Campo Nome deve possuir no mímimo 3 caracteres.
+			</div>
+		</div>
+
+		<div ng-messages="usuarioForm.sobrenome.$error" > 
+			<!-- preenchimento-->
+			<div ng-message="required" class="alert alert-danger">
+				Por favor, preencha o Sobrenome.
+			</div>
+
+		</div>
+
+		<!-- BOTOES -->
+		<button class="btn btn-primary btn-block" ng-click="adicionarUsuario(usuario)" ng-disabled="usuarioForm.$invalid">Adicionar Usuário de Teste</button>
+
+
+		<div ng-include="'footer.html'"></div>
+	</div>
+</body>
+</html>
