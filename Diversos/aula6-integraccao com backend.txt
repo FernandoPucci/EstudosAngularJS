@@ -2,5 +2,31 @@ AULA 6 - INTEGRAÇÃO COM BACKEND
 https://www.youtube.com/watch?v=VU38CEVwPck
 
 
+Função get:
+<script>
+var get = function(url, callback){
+
+			var xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function(){
+
+		if(xhr.readyState === 4){ //comunicacao com sucesso
+			
+		
+			callback(xhr.responseText, xhr.status);
+
+		}else{
+	
+			console.log(xhr.readyState);
+
+		}
+	};
+	xhr.open('GET', url);
+	xhr.send(null);
+};
+</sctript>
+
+
+
 
 

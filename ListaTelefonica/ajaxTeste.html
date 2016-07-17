@@ -30,8 +30,9 @@
 
 		console.log('chamou');
 		
+		//chama a function get criada acima
 		get("http://localhost:8089/WebFuelServices/api/utils/listAllEstados", function(data){ 
-			console.log(data);
+			//console.log(data);
 
 			document.getElementById("ajaxDiv").innerHTML = data;
 			
