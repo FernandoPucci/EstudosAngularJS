@@ -61,34 +61,9 @@
 			$scope.adicionarUsuario = function(usuario){
 
 				usuario.dataAtual = new Date();
-			//	usuario.idTeste = null;
 				
-		/*		$http({
-					method: 'POST',
-					url: 'http://localhost:8089/WebFuelServices/api/testarDBInput',
-					dataType: 'json',
-					headers: { 
-						'Content-Type': 'application/vnd.sun.wadl+xml',
-						"Foo-Header": "foo"
-					},
-					data: {usuario}
-				}).success(function (data){
 
-				delete $scope.usuario; //limpa os campos do usuario
-				$scope.usuarioForm.$setPristine();
-
-				carregarUsuarios();	
-
-			}).error( function(data, status){
-
-				alert("Ocorreu um erro o adicionar Usuario. " + status + ", " + data);
-
-			});
-
-
-		};*/
-
-		$http.post("http://localhost:8089/WebFuelServices/api/testarDBInput", usuario).success(function (data){
+				$http.post("http://localhost:8089/WebFuelServices/api/testarDBInput", usuario).success(function (data){
 
 				delete $scope.usuario; //limpa os campos do usuario
 				$scope.usuarioForm.$setPristine();
@@ -107,7 +82,7 @@
 		carregarUsuarios();
 
 	});
-</script>
+	</script>
 
 
 </head>
