@@ -41,7 +41,9 @@
 
 			$scope.app = "Lista Telefonica";
 
-			$scope.contatos = [
+
+			//comentado, agora busco so servidor Node.js
+			/*$scope.contatos = [
 			{nome:"Pedro", telefone:"99998888", cidade:"", data: new Date(), operadora:{nome:"Oi",codigo:"31",categoria:"Celular"}, cor:"blue"},
 			{nome:"Ana", telefone:"99997777", cidade:"", data: new Date(), 
 			operadora:{nome:"Vivo",codigo:"15",categoria:"Celular"},
@@ -50,18 +52,18 @@
 			operadora:{nome:"CTBC",codigo:"12",categoria:"Fixo"},
 			cor:"red"},
 
-			];
+			];*/
 
 
 
-			$scope.operadoras = [
+			/*$scope.operadoras = [
 			{nome:"Oi", codigo:"31", categoria:"Celular", preco: 0.27},
 			{nome:"CTBC", codigo:"12", categoria:"Fixo", preco: 2.13},			
 			{nome:"Vivo", codigo:"15", categoria:"Celular", preco: 0.20},
 			{nome:"TIM", codigo:"41", categoria:"Celular", preco: 0.79},
 			{nome:"Vivo", codigo:"15", categoria:"Fixo", preco: 1.15 },
 			{nome:"Embratel", codigo:"21", categoria:"Fixo", preco: 2.10}
-			];
+			];*/
 
 			$scope.cores = [
 			{nome:"Azul", codigo:"blue"},
@@ -105,6 +107,20 @@
 				}
 			};
 
+			var carregarContatos = function () {
+				$http.get("http://localhost:3412/contatos").success(function (data) {
+					$scope.contatos = data;
+				}).error(function (data, status) {
+					$scope.message = "Aconteceu um problema: " + data;
+				});
+			};
+
+			var carregarOperadoras = function () {
+				$http.get("http://localhost:3412/operadoras").success(function (data) {
+					$scope.operadoras = data;
+				});
+			};
+
 			//verifica se o array de cidades esta preenchido
 			$scope.checaCidades = function(){
 
@@ -119,12 +135,19 @@
 			$scope.adicionarContato = function(contato){
 				contato.data = new Date();
 
-				
 
-			    $scope.contatos.push(angular.copy(contato)); //copia o contato para a lista, para não alterá-la
+				
+				$http.post("http://localhost:3412/contatos", contato).success(function (data) {
+					delete $scope.contato;
+					$scope.contatoForm.$setPristine();
+					carregarContatos();
+				});
+
+
+			  /*  $scope.contatos.push(angular.copy(contato)); //copia o contato para a lista, para não alterá-la
 			    delete $scope.contato; //limpa os campos do contato
 			    $scope.contatoForm.$setPristine();
-			    
+			    */
 			    $scope.estados;
 
 			    carregarArrayComboEstados();
@@ -163,6 +186,8 @@
 				$scope.classe1 = "selecionado";
 				$scope.classe2 = "negrito";
 
+				carregarContatos();
+				carregarOperadoras();
 				carregarArrayComboEstados();
 
 			});
