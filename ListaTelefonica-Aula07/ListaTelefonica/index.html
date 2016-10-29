@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> 
+<html ng-app="listaTelefonica">
+<head>
+	<title>Lista Telefonica</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular/angular-locale_pt-br.js"></script>
+	<script src="lib/angular/angular-messages.js"></script>
+
+	<script src="js/app.js"></script>
+	<script src="js/controllers/listaTelefonicaController.js">
+
+		
+
+
+</script>
+</head>
+<body ng-controller="listaTelefonicaController">
+	<div class="jumbotron">
+		<!-- <h4 ng-bind="app"></h4> -->
+		<h3>{{app}}</h3>
+		{{contatos}}
+		<!--{{estados}}
+		{{cidades}}-->
+		<!-- EXEMPLO DE FORMATAÇÂO DE NUMERO-->
+		<br/>
+		<!--{{100.386 | number:2}}-->
+		<input type="text" class="form-control" ng-model="criterioDeBusca" placeholder="O que você está buscando">
+
+		<table ng-show="contatos.length > 0" class="table">
+			<tr>
+				<th></th>
+				<th><a href="" ng-click="ordernarPor('nome')">Nome</a></th>
+				<th>Cidade</th>
+				<th><a href="" ng-click="ordernarPor('telefone')">Telefone</a></th>
+				<th>Operadora</th>
+				<th>Categoria</th>
+				<th>Data</th>
+				<th></th>
+			</tr>
+			<tr ng-class="{selecionado:contato.selecionado, negrito:contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
+				<td><input type="checkbox" ng-model="contato.selecionado"/></td>
+				<td>{{contato.nome | uppercase}}</td><!-- filtro uppercase -->
+				<td width="200px">{{contato.cidade.nome| uppercase}}, {{contato.cidade.uf | uppercase}}</td>
+				<td>{{contato.telefone}}</td>
+				<td>{{contato.operadora.nome | lowercase}}</td>
+				<td>{{contato.operadora.categoria }}</td>
+				<td>{{contato.data | date:'EEE dd/MM/yyyy HH:mm:ss'}}</td>
+				<td><div style="width:20px; height:20px;" ng-style="{'background-color':contato.cor}"></div></td>
+
+				<!--	<td ng-repeat="(key, value) in contato">{{value}}</td>-->
+
+			</tr>
+		</table>
+		
+		<hr/>
+
+
+		<form name="contatoForm">
+
+			<input class="form-control" type="text" 
+			ng-model="contato.nome" 
+			name="nome" 
+			placeholder="Nome" 
+			ng-required="true" 
+			ng-minlength="10"/>
+
+			<input class="form-control" type="text" 
+			ng-model="contato.telefone" 
+			name="telefone" 
+			placeholder="Telefone"
+			ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/"/>
+
+			<select class="form-control" 
+			
+			ng-model="contato.cor" 
+			ng-options="cor.codigo as cor.nome for cor in cores | orderBy:nome"
+			ng-disabled="!contato.nome || !contato.telefone">
+
+			<option value="">Selecione uma cor...</option>
+		</select>
+
+		<select class="form-control" 
+
+		ng-model="contato.operadora" 
+		ng-options="operadora.nome + ', [ ' + (operadora.preco | currency) + ' ]'
+		group by operadora.categoria for operadora in operadoras | orderBy:nome" 
+		ng-disabled="!contato.nome || !contato.telefone"> 
+
+		<option value="">Selecione uma operadora...</option>
+	</select>
+
+	<select class="form-control" 
+
+	ng-model="estado" 
+	ng-options="estado.idEstado as estado.uf + ', ' + estado.descricao for estado in estados | orderBy:estado.uf" 
+	ng-disabled="!contato.nome || !contato.telefone"  
+	ng-change="carregarArrayComboCidades(estado)">
+
+	<option value="">Selecione um Estado...</option>
+</select>
+<select class="form-control" 
+
+ng-model="contato.cidade"
+
+ng-options="cidade as cidade.nome + ', ' + cidade.uf for cidade in cidades | orderBy:cidade.nome"
+ng-disabled="!checaCidades()">
+
+
+<option value="">Selecione a Cidade...</option>
+</select>
+
+</form>
+
+<!--ALERTAS-->
+<div ng-messages="contatoForm.nome.$error" > 
+	<!-- preenchimento-->
+	<div ng-message="required" class="alert alert-danger">
+		Por favor, preencha o nome.
+	</div>
+	<!-- minlength-->
+	<div ng-message="minlength" class="alert alert-danger">
+		O Campo Nome deve possuir no mímimo 10 caracteres.
+	</div>
+</div>
+<!-- preenchimento-->
+<div ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty" class="alert alert-danger">
+	Por favor, preencha o telefone.
+</div>
+
+<!--formato-->
+<div ng-show="contatoForm.telefone.$error.pattern" class="alert alert-danger">
+	O campo telefone deve ter o formato '00000-0000'.
+</div>
+
+<!--<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>-->
+
+<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
+
+<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar Contato</button>
+
+</div>
+
+ <div ng-include="'view/footer.html'"></div>
+</body>
+</html>
