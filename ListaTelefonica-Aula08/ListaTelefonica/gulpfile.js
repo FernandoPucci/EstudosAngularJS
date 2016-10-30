@@ -27,7 +27,7 @@ gulp.task('jshint', function(){
 
 gulp.task('uglify', function(){ 
 		return es.merge([
-			gulp.src(['lib/angular/angular.min.js','lib/angular/angular-messages.min.js', 'lib/angular/angular-locale_pt-br.js']), //estes precisam entrar no build mas nao precisam uglifycar, pois já estão minificados
+			gulp.src(['node_modules/angular/angular.min.js','node_modules/angular-messages/angular-messages.min.js', 'lib/angular/angular-locale_pt-br.js']), //estes precisam entrar no build mas nao precisam uglifycar, pois já estão minificados
 			// gulp.src(['js/*.js','js/controllers/*.js']).pipe(concat('scripts.js')).pipe(uglify())
 			gulp.src(['js/**/*.js']).pipe(concat('scripts.js'))//.pipe(uglify())
 		])		
