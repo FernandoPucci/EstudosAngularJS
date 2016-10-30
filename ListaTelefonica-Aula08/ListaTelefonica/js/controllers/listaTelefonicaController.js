@@ -17,7 +17,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaController", functi
 			//TODO: criar via JSON um array de estados
 			var carregarArrayComboEstados = function(){
 
-				$http.get("http://localhost:8089/WebFuelServices/api/utils/listAllEstados").success(function(data, status){
+				$http.get("http://localhost:3412/listAllEstados").success(function(data, status){
 
 					//crio o array estados, baseado nos dados dos estados retornados do BackEnd
 					$scope.estados = data;
@@ -31,7 +31,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaController", functi
 			$scope.carregarArrayComboCidades = function(estado){
 
 				if(estado!==null){
-					$http.get("http://localhost:8089/WebFuelServices/api/utils/listAllCidadesByIdEstado?idEstado=" + estado).success(function(data, status){
+					$http.get("http://localhost:3412/listAllCidadesByIdEstado?idEstado=" + estado).success(function(data, status){
 						console.log(data);
 						console.log(status);
 						$scope.cidades = data;

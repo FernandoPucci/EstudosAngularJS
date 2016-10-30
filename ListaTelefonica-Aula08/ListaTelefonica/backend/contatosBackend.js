@@ -1,6 +1,100 @@
 var express = require('express');
+var Sequelize = require('sequelize')
 var app = express();
 
+
+//configurações Banco de Dados
+var sequelize = new Sequelize('WEBFUEL2', 'root', '123456', {
+  host: 'localhost',
+  dialect: 'mysql',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+
+  // SQLite only
+ // storage: 'path/to/database.sqlite'
+});
+
+var Teste = sequelize.define('TESTE', {
+
+					 idTeste: {
+					    type: Sequelize.UUID,
+					    primaryKey: true,
+					    field: 'ID_TESTE' // Will result in an attribute that is firstName when user facing but first_name in the database
+
+					  },
+					  nome: {
+					    type: Sequelize.STRING,
+					    field: 'NOME'
+					  },
+					    sobreNome: {
+					    type: Sequelize.STRING,
+					    field: 'SOBRENOME'
+					  }
+					  					}, {
+		  timestamps: false,
+		  freezeTableName: true // Model tableName will be the same as the model name
+});
+
+var Estado = sequelize.define('ESTADO', {
+
+					  idEstado:{
+					  	type: Sequelize.UUID,
+					    primaryKey: true,
+					    field: 'ID'
+					  },
+					  uf: {
+					    type: Sequelize.STRING,
+					    field: 'UF'
+					  },
+					   descricao: {
+					    type: Sequelize.STRING,
+					    field: 'NOME'
+					  }
+					  					}, {
+		  timestamps: false,
+		  freezeTableName: true // Model tableName will be the same as the model name
+});
+
+var Cidade = sequelize.define('CIDADE', {
+
+					  idcidade:{
+					  	type: Sequelize.UUID,
+					    primaryKey: true,
+					    field: 'ID'
+					  },
+					  idEstado: {
+					    type: Sequelize.STRING,
+					    field: 'ID_ESTADO'
+					  },
+					  uf: {
+					    type: Sequelize.STRING,
+					    field: 'UF'
+					  },
+					  nome: {
+					    type: Sequelize.STRING,
+					    field: 'NOME'
+					  }
+					  					}, {
+		  timestamps: false,
+		  freezeTableName: true // Model tableName will be the same as the model name
+});
+
+
+var insertTeste = function(_nome, _sobrenome){
+
+	Teste.create({nome: _nome, sobreNome: _sobrenome}).then(function(task){
+		task.save();
+	});
+
+
+};
+//FIM CONFIGURAÇÕES DO BANCO
+
+//Aplicação
 app.use(express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 
@@ -27,6 +121,8 @@ app.all('*', function(req, res, next) {
   next();
 });
 
+//VERBOS
+//lista todos contatos pre-definidos
 app.get('/contatos', function(req, res) {
   res.json(contatos);
 });
@@ -36,6 +132,43 @@ app.post('/contatos', function(req, res) {
   res.json(true);
 });
 
+//lista todas operadoras para preenchimento de checkbox
 app.get('/operadoras', function(req, res) {
   res.json(operadoras);
+});
+
+//insere dados na tabela teste
+app.get('/insertTeste', function(req,res){
+	insertTeste(req.param('nome'),req.param('sobrenome'));
+	
+	res.send('OK!');
+
+});
+
+//consulta todos os Estados
+app.get('/listAllEstados', function(req, res){
+	
+  Estado.findAll().then(function(objs){
+
+  		res.json(objs);
+
+  });
+
+});
+
+//consulta todas as cidades cujo estado pertença à id
+app.get('/listAllCidadesByIdEstado', function(req, res){
+	
+	var _idEstado = req.param('idEstado');
+
+	  Cidade.findAll({
+					  where: {
+					    idEstado: _idEstado
+					  }
+			}).then(function(objs){
+	 		
+	  				res.json(objs);
+
+	  });
+
 });
